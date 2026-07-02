@@ -45,7 +45,6 @@ export default function SystemProfile() {
             <div className="space-y-0.5">
               <p className="text-fg-main font-semibold">BS in Information Technology</p>
               <p>Central Mindanao University</p>
-              <p className="text-fg-muted/70">Active Enrollment</p>
             </div>
           </div>
 
@@ -54,8 +53,6 @@ export default function SystemProfile() {
             <span className="text-fg-main font-bold block mb-1.5">// COMPETITIVE LOG</span>
             <div className="space-y-0.5">
               <p className="text-fg-main font-semibold">Hackathons & Tech Contests</p>
-              <p>Active University Competitor</p>
-              <p className="text-fg-muted/70">Focus: Rapid Prototyping & Logic</p>
             </div>
           </div>
 
