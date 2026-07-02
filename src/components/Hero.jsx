@@ -4,7 +4,7 @@ export default function Hero() {
       
       {/* Strategy 2 Name Identity Over-line */}
       <span className="font-mono text-xs uppercase tracking-widest text-fg-muted mb-3 block font-bold">
-        DARRYL LASTNAME
+        DARRYL MACARANDAN
       </span>
       
       {/* High-Contrast Typographic Highlight Headline */}
@@ -21,19 +21,19 @@ export default function Hero() {
       <div className="w-full max-w-3xl grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 pt-6 border-t border-border-subtle font-mono text-xs text-fg-muted">
         {/* Column 1 - Left Column Top */}
         <div>
-          <span className="text-fg-main font-bold block mb-1">// CLIENT INTERFACES</span>
+          <span className="text-fg-main font-bold block mb-1">// FRONTEND</span>
           <span className="tracking-wide">React.js · Tailwind CSS · JavaScript · HTML5 · CSS3</span>
         </div>
         
         {/* Column 2 - Right Column Top */}
         <div>
-          <span className="text-fg-main font-bold block mb-1">// APPLICATION ENGINES</span>
+          <span className="text-fg-main font-bold block mb-1">// BACKEND</span>
           <span className="tracking-wide">Node.js · Express.js · PHP · Laravel · Python · Flask</span>
         </div>
         
         {/* Row 2 - Spans Full Width on Desktop for a structural anchor base */}
         <div className="md:col-span-2 pt-2">
-          <span className="text-fg-main font-bold block mb-1">// DATA STORAGE</span>
+          <span className="text-fg-main font-bold block mb-1">// DATABASE</span>
           <span className="tracking-wide">MySQL · MongoDB</span>
         </div>
       </div>
