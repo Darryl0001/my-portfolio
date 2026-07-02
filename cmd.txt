@@ -1,14 +1,129 @@
-import Header from '../components/Header';
+i cleaned it to be like this 
+i adjust the padding of the button and its rounded
+i make it transparent background with no padding
 
-export default function MainLayout({ children }) {
+to not overchrowed like on the image 
+i put the span at the top 
+also make the clear all at the bottom left
+
+
+import { useState } from 'react';
+import ProjectCard from '../components/ProjectCard';
+import { projectsData } from '../data/projects';
+
+export default function Archive() {
+  const [selectedTags, setSelectedTags] = useState([]);
+
+  // Extract all unique language/tech tags dynamically across all portfolio items
+  const availableTags = Array.from(
+    new Set(projectsData.flatMap((project) => project.tags))
+  ).sort();
+
+  // Handle the selection and extraction toggles of specific language tags
+  const handleTagToggle = (tag) => {
+    if (selectedTags.includes(tag)) {
+      setSelectedTags(selectedTags.filter((t) => t !== tag));
+    } else {
+      setSelectedTags([...selectedTags, tag]);
+    }
+  };
+
+  // Clear all selected active search matrices
+  const clearAllFilters = () => setSelectedTags([]);
+
+  // Filter the projects matrix based on active tag array
+  const filteredProjects = selectedTags.length === 0
+    ? projectsData
+    : projectsData.filter((project) =>
+        selectedTags.every((tag) => project.tags.includes(tag))
+      );
+
   return (
-    <div className="min-h-screen bg-bg-main text-fg-main selection:bg-lime-accent selection:text-fg-main flex flex-col">
-      <Header />
-      <main className="flex-1 mx-auto w-full max-w-5xl">
-        {children}
-      </main>
+    <div className="py-16 px-6 max-w-5xl mx-auto">
+      
+      {/* Section Typography Header */}
+      <div className="mb-10 border-b border-border-subtle pb-6">
+        <h1 className="text-2xl font-bold text-fg-main tracking-tight font-mono uppercase">
+          // Project_Archive
+        </h1>
+      </div>
+
+         <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-fg-muted whitespace-nowrap select-none">
+            Tools & Languages:
+          </span>
+
+      {/* Engineering Filter Console Bar */}  
+      <div className="mb-12  rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          {/* Prefix Indicator */}
+          {/* Tag Chips Flex Grid Container */}
+          <div className="flex flex-wrap gap-2">
+            {availableTags.map((tag) => {
+              const isActive = selectedTags.includes(tag);
+              return (
+                <button
+                  key={tag}
+                  onClick={() => handleTagToggle(tag)}
+                  className={`px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-wide rounded-full cursor-pointer  border transition-all duration-200 flex items-center gap-1.5 focus:outline-none ${
+                    isActive
+                      ? 'bg-lime-accent/10 border-lime-accent text-fg-main'
+                      : 'bg-white border-border-subtle text-fg-muted hover:border-lime-accent/50'
+                  }`}
+                >
+                  <span>{tag}</span>
+                  {isActive && (
+                    <span className="text-[14px] leading-none opacity-60 hover:opacity-100 font-sans font-normal">
+                      &times;
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Dynamic Reset Trigger Link */}
+        {selectedTags.length > 0 && (
+          <button
+            onClick={clearAllFilters}
+            className="font-mono text-[11px] font-bold uppercase tracking-wider text-fg-muted hover:text-fg-main underline underline-offset-4 decoration-border-subtle transition-colors align-self-start sm:align-self-auto"
+          >
+            [ CLEAR_ALL ]
+          </button>
+        )}
+      </div>
+
+      {/* Grid Multi-Column Card Layout Matrix */}
+      {filteredProjects.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {filteredProjects.map((project) => (
+            <ProjectCard
+              key={project.id}
+              id={project.id}
+              title={project.title}
+              description={project.description}
+              tags={project.tags}
+              category={project.category}
+            />
+          ))}
+        </div>
+      ) : (
+        /* Empty Filtering Output State Frame */
+        <div className="border border-dashed border-border-subtle rounded-xl p-16 text-center">
+          <p className="font-mono text-xs text-fg-muted">
+            [ NO_COMPILED_RECORDS_MATCHING_SELECTED_PARAMETERS ]
+          </p>
+          <button
+            onClick={clearAllFilters}
+            className="mt-4 px-4 py-1.5 bg-white border border-border-subtle font-mono text-[11px] font-bold uppercase tracking-wider rounded-md text-fg-main hover:border-lime-accent transition-all"
+          >
+            Reset Filters
+          </button>
+        </div>
+      )}
     </div>
   );
-} 
+}
 
-put that here
+
