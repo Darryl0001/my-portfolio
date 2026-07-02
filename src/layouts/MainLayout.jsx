@@ -1,0 +1,12 @@
+import Header from '../components/Header';
+
+export default function MainLayout({ children }) {
+  return (
+    <div className="min-h-screen bg-bg-main text-fg-main selection:bg-lime-accent selection:text-fg-main flex flex-col">
+      <Header />
+      <main className="flex-1 mx-auto w-full max-w-5xl">
+        {children}
+      </main>
+    </div>
+  );
+}
