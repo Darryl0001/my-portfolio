@@ -1,15 +1,118 @@
+import { useState } from 'react';
+import ProjectCard from '../components/ProjectCard';
+import { projectsData } from '../data/projects';
+
 export default function Archive() {
+  const [selectedTags, setSelectedTags] = useState([]);
+
+  // Extract all unique language/tech tags dynamically across all portfolio items
+  const availableTags = Array.from(
+    new Set(projectsData.flatMap((project) => project.tags))
+  ).sort();
+
+  // Handle the selection and extraction toggles of specific language tags
+  const handleTagToggle = (tag) => {
+    if (selectedTags.includes(tag)) {
+      setSelectedTags(selectedTags.filter((t) => t !== tag));
+    } else {
+      setSelectedTags([...selectedTags, tag]);
+    }
+  };
+
+  // Clear all selected active search matrices
+  const clearAllFilters = () => setSelectedTags([]);
+
+  // Filter the projects matrix based on active tag array
+  const filteredProjects = selectedTags.length === 0
+    ? projectsData
+    : projectsData.filter((project) =>
+        selectedTags.every((tag) => project.tags.includes(tag))
+      );
+
   return (
     <div className="py-16 px-6 max-w-5xl mx-auto">
-   
-      <div className="border border-border-subtle rounded-xl overflow-hidden bg-white">
-        <div className="p-6 bg-slate-50 border-b border-border-subtle text-xs font-mono font-bold text-fg-muted">
-          LOGGED SOURCE BASES
-        </div>
-        <div className="p-12 text-center text-sm text-fg-muted font-mono">
-          [ Projects Container ]
-        </div>
+      
+      {/* Section Typography Header */}
+      <div className="mb-10 border-b border-border-subtle pb-6">
+        <h1 className="text-2xl font-bold text-fg-main tracking-tight font-mono uppercase">
+          // Project_Archive
+        </h1>
       </div>
+
+      {/* Engineering Filter Console Bar */}  
+      <div className="mb-12 flex flex-col gap-4">
+        
+        {/* Top Label Layer Anchor */}
+        <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-fg-muted/70 select-none">
+          Tools & Languages:
+        </span>
+        
+        {/* Tag Chips Flex Grid Container */}
+        <div className="flex flex-wrap gap-2">
+          {availableTags.map((tag) => {
+            const isActive = selectedTags.includes(tag);
+            return (
+              <button
+                key={tag}
+                onClick={() => handleTagToggle(tag)}
+                className={`px-4 py-1.5 font-mono text-[11px] font-bold uppercase tracking-wide rounded-full cursor-pointer border transition-all duration-200 flex items-center gap-1.5 focus:outline-none ${
+                  isActive
+                    ? 'bg-lime-accent/10 border-lime-accent text-fg-main'
+                    : 'bg-white border-border-subtle text-fg-muted hover:border-lime-accent/50'
+                }`}
+              >
+                <span>{tag}</span>
+                {isActive && (
+                  <span className="text-[14px] leading-none opacity-60 hover:opacity-100 font-sans font-normal">
+                    &times;
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Bottom Left Dynamic Reset Link Trigger */}
+        {selectedTags.length > 0 && (
+          <div className="pt-1">
+            <button
+              onClick={clearAllFilters}
+              className="font-mono text-[11px] font-bold uppercase tracking-wider text-fg-muted hover:text-fg-main underline underline-offset-4 decoration-border-subtle/60 transition-colors self-start cursor-pointer"
+            >
+              [ CLEAR_ALL ]
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Grid Multi-Column Card Layout Matrix */}
+      {filteredProjects.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {filteredProjects.map((project) => (
+            <ProjectCard
+              key={project.id}
+              id={project.id}
+              title={project.title}
+              description={project.description}
+              tags={project.tags}
+              category={project.category}
+            />
+          ))}
+        </div>
+      ) : (
+        /* Empty Filtering Output State Frame */
+        <div className="border border-dashed border-border-subtle rounded-xl p-16 text-center bg-white">
+          <p className="font-mono text-xs text-fg-muted">
+            [ NO_COMPILED_RECORDS_MATCHING_SELECTED_PARAMETERS ]
+          </p>
+          <button
+            onClick={clearAllFilters}
+            className="mt-4 px-4 py-1.5 bg-white border border-border-subtle font-mono text-[11px] font-bold uppercase tracking-wider rounded-md text-fg-main hover:border-lime-accent transition-all cursor-pointer"
+          >
+            Reset Filters
+          </button>
+        </div>
+      )}
     </div>
   );
 }
