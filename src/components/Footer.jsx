@@ -5,26 +5,28 @@ export default function Footer() {
 
   return (
     <footer className="w-full border-t border-border-subtle bg-white py-8 px-6 font-mono text-[11px] text-fg-muted">
-      {/* Responsive Layout Settings:
-        - Mobile views (`flex-col items-start gap-4`): Stacks the rows neatly without awkward squishing.
-        - Desktop views (`sm:flex-row sm:items-center sm:justify-between sm:gap-6`): Realigns components horizontally.
+      {/* Changed `items-start` to `items-center` for mobile viewports.
+        This forces the stacked columns to align perfectly along the central axis.
       */}
-      <div className="mx-auto max-w-5xl flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6 w-full">
+      <div className="mx-auto max-w-5xl flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6 w-full">
         
         {/* Left Column: Copyright Identity */}
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-1.5 text-center sm:text-left">
           <p className="font-sans text-xs text-fg-main font-bold tracking-tight">
             © {currentYear} DARRYL MACARANDAN
           </p>
         </div>
 
         {/* Right Column: Fast Utilities Matrix */}
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 sm:gap-x-6 font-bold uppercase tracking-wider w-full sm:w-auto">
+        {/* Changed `justify-start` (default) to `justify-center` for mobile layout tracking.
+          This centers the inline interactive options together.
+        */}
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 sm:gap-x-6 font-bold uppercase tracking-wider w-full sm:w-auto">
           <Link to="/archive" className="hover:text-fg-main transition-colors py-1 sm:py-0">
             Archive
           </Link>
           
-          {/* Subtle line divider hides on mobile stacks to keep the screen free of orphan symbols */}
+          {/* Subtle line divider remains hidden on mobile layouts */}
           <span className="text-slate-200 select-none hidden sm:inline">/</span>
           
           <a 
