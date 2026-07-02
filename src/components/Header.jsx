@@ -1,8 +1,33 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Unified navigation handler for cross-route anchor scrolling
+  const handleContactClick = (e) => {
+    e.preventDefault();
+    setIsOpen(false); // Close mobile drawer if open
+
+    if (location.pathname === '/') {
+      // If already home, scroll down immediately
+      const element = document.getElementById('contact');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // If on another route, navigate home first, then find the element after layout paint
+      navigate('/');
+      setTimeout(() => {
+        const element = document.getElementById('contact');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100); // Small delay to allow the DOM tree to swap out safely
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border-subtle bg-white/80 backdrop-blur-md">
@@ -23,7 +48,11 @@ export default function Header() {
           </nav>
 
           {/* Always Visible Let's Talk Call-To-Action Button */}
-          <a href="#contact" className="bg-lime-accent text-fg-main px-4 py-1.5 rounded-full text-xs font-bold hover:opacity-90 transition-all z-50 whitespace-nowrap">
+          <a 
+            href="#contact" 
+            onClick={handleContactClick}
+            className="bg-lime-accent text-fg-main px-4 py-1.5 rounded-full text-xs font-bold hover:opacity-90 transition-all z-50 whitespace-nowrap"
+          >
             Let's Talk
           </a>
 

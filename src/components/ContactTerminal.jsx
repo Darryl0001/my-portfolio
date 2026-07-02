@@ -10,7 +10,7 @@ export default function ContactTerminal() {
   };
 
   return (
-    <section className="px-6 border-t border-slate-200 pt-16 pb-20">
+    <section className="px-6 border-t border-slate-200 pt-16 pb-20" id='contact'>
       {/* Section Header */}
       <div className="mb-4">
         <h2 className="text-xs uppercase tracking-widest font-bold text-slate-800">
